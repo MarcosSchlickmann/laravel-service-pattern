@@ -8,7 +8,6 @@
 
 Acesse o repositório e crie o arquivo de configuração do ambiente:
      
-     cd e-saude-backend
      cp .env.example .env
      
 Execute os comando a seguir para que defina seu ID de usuário e de grupo do sistema:
@@ -42,7 +41,7 @@ Para melhorar o desempenho, crie um banco de dados local. Após, configure as in
 	DB_CONNECTION=mysql
 	DB_HOST=192.168.0.4
 	DB_PORT=3306
-	DB_DATABASE=renault-copa
+	DB_DATABASE=database
 	DB_USERNAME=username
 	DB_PASSWORD=password
 
