@@ -1,0 +1,831 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "L5 OpenApi",
+        "description": "L5 Swagger OpenApi description",
+        "contact": {
+            "email": "darius@matulionis.lt"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/public"
+        }
+    ],
+    "paths": {
+        "/api/v1/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login",
+                "description": "Route to login",
+                "operationId": "login",
+                "requestBody": {
+                    "description": "Input data format",
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "User's email",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "description": "User's password",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/api/v1/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Logout (NECESSÁRIO ESTAR AUTENTICADO)",
+                "description": "Rota para logout. Usuário DEVE estar autenticado para acessar.",
+                "operationId": "logout",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "500": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "api_token": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/solicitar_recuperar_senha": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "solicitar recuperar senha",
+                "description": "Route to solicitar_recuperar_senha",
+                "operationId": "solicitar_recuperar_senha",
+                "requestBody": {
+                    "description": "Input data format",
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "User's email",
+                                        "type": "string"
+                                    },
+                                    "link_definir_senha": {
+                                        "description": "Link do front para definir nova senha",
+                                        "type": "string url"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/api/v1/recuperar_senha": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Define nova senha para usuário",
+                "description": "Define nova senha para usuário",
+                "operationId": "recuperarSenha",
+                "requestBody": {
+                    "description": "Input data format",
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "password": {
+                                        "description": "User's password",
+                                        "type": "string"
+                                    },
+                                    "password_confirmation": {
+                                        "description": "User's password confirmation",
+                                        "type": "string"
+                                    },
+                                    "token": {
+                                        "description": "Token de recuperação de senha. Enviado junto ao link no e-mail de recuperação.",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/api/v1/renault_colaborador/verificar_cpf": {
+            "post": {
+                "tags": [
+                    "Colaborador"
+                ],
+                "summary": "Check colaborador CPF",
+                "description": "Return whether the CPF is valid or not",
+                "operationId": "cpfExistente",
+                "requestBody": {
+                    "description": "Input data format",
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "cpf": {
+                                        "description": "Colaborador CPF",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/api/v1/renault_colaborador/verificar_colaborador": {
+            "post": {
+                "tags": [
+                    "Colaborador"
+                ],
+                "summary": "Check colaborador data",
+                "description": "Return whether the colaborador data is valid or not",
+                "operationId": "colaboradorExistente",
+                "requestBody": {
+                    "description": "Input data format",
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "cpf": {
+                                        "description": "Colaborador CPF",
+                                        "type": "string"
+                                    },
+                                    "primeiro_nome": {
+                                        "description": "Colaborador's first name",
+                                        "type": "string"
+                                    },
+                                    "ultimo_nome": {
+                                        "description": "Colaborador's last name",
+                                        "type": "string"
+                                    },
+                                    "data_nascimento": {
+                                        "description": "Colaborador's birthdate",
+                                        "type": "date('d/m/Y')"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/api/v1/renault_colaborador/exibir_padrinho": {
+            "post": {
+                "tags": [
+                    "Colaborador"
+                ],
+                "summary": "Informações do padrinho(n1 ou n+1) do colaborador",
+                "description": "Returna as informações do padrinho do colaborador a partir de seu CPF",
+                "operationId": "exibir_padrinho",
+                "requestBody": {
+                    "description": "Input data format",
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "cpf": {
+                                        "description": "Colaborador CPF",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                },
+                "security": [
+                    {
+                        "api_token": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/renault_colaborador/encontrar_por_cpf": {
+            "post": {
+                "tags": [
+                    "Colaborador"
+                ],
+                "summary": "Informações do colaborador",
+                "description": "Returna as informações do colaborador a partir de seu CPF",
+                "operationId": "encontrar_por_cpf",
+                "requestBody": {
+                    "description": "Input data format",
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "cpf": {
+                                        "description": "Colaborador CPF",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                },
+                "security": [
+                    {
+                        "api_token": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/departamentos": {
+            "get": {
+                "tags": [
+                    "Departamentos"
+                ],
+                "summary": "Listar departamentos",
+                "description": "Returna a ista de departamentos",
+                "operationId": "index",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                },
+                "security": [
+                    {
+                        "api_token": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/equipe/listar": {
+            "post": {
+                "tags": [
+                    "Equipe"
+                ],
+                "summary": "Listar equipes",
+                "description": "Returna lista de equipes com integrantes",
+                "operationId": "index",
+                "requestBody": {
+                    "description": "Input data format",
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "description": "nome da equipe para filtrar (nullable)",
+                                        "type": "string"
+                                    },
+                                    "codigo_unico": {
+                                        "description": "codigo unico da equipe de 3 digitos para filtrar (nullable)",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "api_token": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/equipe/exportar": {
+            "get": {
+                "tags": [
+                    "Equipe"
+                ],
+                "summary": "Exportar equipes",
+                "description": "Baixa planilha de equipes com integrantes",
+                "operationId": "export",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "api_token": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/equipe/cadastrar": {
+            "post": {
+                "tags": [
+                    "Equipe"
+                ],
+                "summary": "Cadastrar equipe",
+                "description": "Cadastra a equipe e seus integrantes <br> \n                'equipe.nome' => [<br>\n                'required',<br>\n                'string',<br>\n                'unique:equipes,nome'<br>\n                ],<br>\n                'equipe.planta_uuid' => [<br>\n                'required',<br>\n                'string',<br>\n                'exists:plantas,uuid'<br>\n                ],<br>\n                'equipe.ajuda_engenharia' => [<br>\n                'required',<br>\n                'boolean'<br>\n                ],<br>\n                'equipe.ganho_previsto' => [<br>\n                'nullable',<br>\n                'regex:/([0-9]+).([0-9]{2})/'<br>\n                ],<br>\n                'equipe.descricao' => [<br>\n                'required',<br>\n                'string'<br>\n                ],<br>\n                'equipe.data_implementacao' => [<br>\n                'required',<br>\n                'date_format:Y-m-d'<br>\n                ],<br>\n                'integrantes' => [<br>\n                'required',<br>\n                'between:3,5'<br>\n                ],<br>\n                'integrantes.*.cpf' => [<br>\n                'required',<br>\n                'exists:renault_colaboradores,cpf',<br>\n                'regex:/([0-9]){3}\\.([0-9]{3})\\.([0-9]{3})\\-([0-9]{2})/',<br>\n                ],<br>\n                'integrantes.*.turno' => [<br>\n                'required',<br>\n                Rule::in(Integrante::getPossibleTurno())<br>\n                ],<br>\n                'integrantes.*.telefone' => [<br>\n                'required'<br>\n                ],<br>\n                'integrantes.*.email' => [<br>\n                'required',<br>\n                'email'<br>\n                ],<br>\n                'integrantes.*.departamento_uuid' => [<br>\n                'required_without:integrantes.*.outro_departamento',<br>\n                'exists:departamentos,uuid'<br>\n                ],<br>\n                'integrantes.*.outro_departamento' => [<br>\n                'required_without:integrantes.*.departamento_uuid',<br>\n                'string'<br>\n                ],<br>\n                <br>\n                'integrantes.*.tipo' => [<br>\n                'required',<br>\n                Rule::in(Integrante::getPossibleTipo())<br>\n                ],<br>",
+                "operationId": "store",
+                "requestBody": {
+                    "description": "Input data format",
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "description": "Nome da equipe (unico)",
+                                        "type": "string"
+                                    },
+                                    "planta_uuid": {
+                                        "description": "Planta de implantação da equipe",
+                                        "type": "string"
+                                    },
+                                    "ajuda_engenharia": {
+                                        "description": "Define se a equipe precisará de ajuda da engenharia",
+                                        "type": "boolean"
+                                    },
+                                    "ganho_previsto": {
+                                        "description": "Valor de ganho previso. Pode ser nulo. Formato: /([0-9]+).([0-9]{2})/ e.g.: 1234.56",
+                                        "type": "string"
+                                    },
+                                    "descricao": {
+                                        "description": "Descrição breve da equipe",
+                                        "type": "string"
+                                    },
+                                    "data_implementacao": {
+                                        "description": "Data de implementação",
+                                        "type": "date(Y-m-d)"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                },
+                "security": [
+                    {
+                        "api_token": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/equipe/nome_existe": {
+            "post": {
+                "tags": [
+                    "Equipe"
+                ],
+                "summary": "Check colaborador CPF",
+                "description": "Returna se já existe uma equipe com esse nome",
+                "operationId": "nomeExiste",
+                "requestBody": {
+                    "description": "Input data format",
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "description": "Nome do Colaborador",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                },
+                "security": [
+                    {
+                        "api_token": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/equipe/{uuid}": {
+            "get": {
+                "tags": [
+                    "Equipe"
+                ],
+                "summary": "Exibir equipe",
+                "description": "Returna a equipe, caso usuário pertencer aos associados",
+                "operationId": "show",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Equipe uuid",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "api_token": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Equipe"
+                ],
+                "summary": "Atualizar equipe",
+                "description": "Cadastra a equipe e seus integrantes <br> \n                'equipe_alterar.nome' => [<br>\n                'required',<br>\n                'string',<br>\n                'unique:equipes,nome'<br>\n                ],<br>\n                'equipe_alterar.planta_uuid' => [<br>\n                'required',<br>\n                'string',<br>\n                'exists:plantas,uuid'<br>\n                ],<br>\n                'equipe_alterar.ajuda_engenharia' => [<br>\n                'required',<br>\n                'boolean'<br>\n                ],<br>\n                'equipe_alterar.ganho_previsto' => [<br>\n                'nullable',<br>\n                'regex:/([0-9]+).([0-9]{2})/'<br>\n                ],<br>\n                'equipe_alterar.descricao' => [<br>\n                'required',<br>\n                'string'<br>\n                ],<br>\n                'equipe_alterar.data_implementacao' => [<br>\n                'required',<br>\n                'date_format:Y-m-d'<br>\n                ],<br>\n                'integrantes' => [<br>\n                'required',<br>\n                'between:3,5'<br>\n                ],<br>\n                'integrantes.*.cpf' => [<br>\n                'required',<br>\n                'exists:renault_colaboradores,cpf',<br>\n                'regex:/([0-9]){3}\\.([0-9]{3})\\.([0-9]{3})\\-([0-9]{2})/',<br>\n                ],<br>\n                'integrantes.*.turno' => [<br>\n                'required',<br>\n                Rule::in(Integrante::getPossibleTurno())<br>\n                ],<br>\n                'integrantes.*.telefone' => [<br>\n                'required'<br>\n                ],<br>\n                'integrantes.*.email' => [<br>\n                'required',<br>\n                'email'<br>\n                ],<br>\n                'integrantes.*.departamento_uuid' => [<br>\n                'required_without:integrantes.*.outro_departamento',<br>\n                'exists:departamentos,uuid'<br>\n                ],<br>\n                'integrantes.*.outro_departamento' => [<br>\n                'required_without:integrantes.*.departamento_uuid',<br>\n                'string'<br>\n                ],<br>\n                <br>\n                'integrantes.*.tipo' => [<br>\n                'required',<br>\n                Rule::in(Integrante::getPossibleTipo())<br>\n                ],<br>",
+                "operationId": "update",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Equipe uuid",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Input data format",
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "equipe_alterar.nome": {
+                                        "description": "Nome da equipe (unico)",
+                                        "type": "string"
+                                    },
+                                    "equipe_alterar.planta_uuid": {
+                                        "description": "Planta de implantação da equipe",
+                                        "type": "string"
+                                    },
+                                    "equipe_alterar.ajuda_engenharia": {
+                                        "description": "Define se a equipe precisará de ajuda da engenharia",
+                                        "type": "boolean"
+                                    },
+                                    "equipe_alterar.ganho_previsto": {
+                                        "description": "Valor de ganho previso. Pode ser nulo. Formato: /([0-9]+).([0-9]{2})/ e.g.: 1234.56",
+                                        "type": "string"
+                                    },
+                                    "equipe_alterar.descricao": {
+                                        "description": "Descrição breve da equipe",
+                                        "type": "string"
+                                    },
+                                    "equipe_alterar.data_implementacao": {
+                                        "description": "Data de implementação",
+                                        "type": "date(Y-m-d)"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                },
+                "security": [
+                    {
+                        "api_token": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/equipe/{uuid}/aprovar_inscricao": {
+            "get": {
+                "tags": [
+                    "Equipe"
+                ],
+                "summary": "aprovar inscricao equipe",
+                "description": "Aprovar inscricao da equipe",
+                "operationId": "aprovar_inscricao",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Equipe uuid",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "api_token": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/equipe/{uuid}/reprovar": {
+            "post": {
+                "tags": [
+                    "Equipe"
+                ],
+                "summary": "reprovar inscricao equipe",
+                "description": "reprovar inscricao da equipe",
+                "operationId": "reprovar",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Equipe uuid",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Input data format",
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "motivo_reprovacao": {
+                                        "description": "Motivo da reprovacao",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "api_token": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/integrantes/turnos": {
+            "get": {
+                "tags": [
+                    "Integrantes"
+                ],
+                "summary": "Listar turnos",
+                "description": "Returna a ista de turnos",
+                "operationId": "turnos",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "api_token": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/integrantes/tipos": {
+            "get": {
+                "tags": [
+                    "Integrantes"
+                ],
+                "summary": "Listar tipos",
+                "description": "Returna a ista de tipos",
+                "operationId": "tipos",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "api_token": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/plantas": {
+            "get": {
+                "tags": [
+                    "Plantas"
+                ],
+                "summary": "Listar plantas de implantação",
+                "description": "Returna a ista de plantas de implantação",
+                "operationId": "index",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                },
+                "security": [
+                    {
+                        "api_token": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/user/register": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Register user",
+                "description": "Register the user after checking that they are a valid Colaborador",
+                "operationId": "register",
+                "requestBody": {
+                    "description": "Input data format",
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "cpf": {
+                                        "description": "Colaborador CPF",
+                                        "type": "string"
+                                    },
+                                    "primeiro_nome": {
+                                        "description": "Colaborador's first name",
+                                        "type": "string"
+                                    },
+                                    "ultimo_nome": {
+                                        "description": "Colaborador's last name",
+                                        "type": "string"
+                                    },
+                                    "data_nascimento": {
+                                        "description": "Colaborador's birthdate",
+                                        "type": "date('d/m/Y')"
+                                    },
+                                    "email": {
+                                        "description": "User's email",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "description": "User's password",
+                                        "type": "string"
+                                    },
+                                    "password_confirmation": {
+                                        "description": "User's password confirmation",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "api_token": {
+                "type": "apiKey",
+                "description": "Adicione \"Bearer \" antes do token",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    }
+}
